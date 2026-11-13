@@ -1,0 +1,54 @@
+// ==UserScript==
+// @name         WMS | Auditoria ASN MI - Todas SKUs
+// @namespace    https://wms.ssc.shopee.com.br/
+// @version      3.2.0
+// @description  Auditoria da ASN: todas as SKUs, MIs, MTBs e devices; Received x Putaway; bolha arrastavel e exportacao CSV.
+// @author       Lucas Echer
+// @homepageURL  https://lucasecher-ops.github.io/WMS-ASN-Auditoria/
+// @match        https://wms.ssc.shopee.com.br/*
+// @run-at       document-idle
+// @noframes
+// @grant        none
+// @require      https://lucasecher-ops.github.io/WMS-ASN-Auditoria/app/main.js?v=3.2.0#sha256=c164f1d7779c5f4ee7a03c88a89640360890ba0ae7ab265b9fc6906e1afd2543
+// @updateURL    https://lucasecher-ops.github.io/WMS-ASN-Auditoria/loader.meta.js
+// @downloadURL  https://lucasecher-ops.github.io/WMS-ASN-Auditoria/loader.user.js
+// ==/UserScript==
+
+(() => {
+  'use strict';
+  const id = 'wms-auditoria-loader-notice';
+  document.getElementById(id)?.remove();
+  const ready = !!window.__WMS_ASN_MI_AUDIT_V3__;
+  const el = document.createElement('div');
+  el.id = id;
+  el.setAttribute('role', 'status');
+  el.setAttribute('aria-live', 'polite');
+  el.style.cssText = 'position:fixed;left:18px;bottom:18px;z-index:2147483647;display:flex;align-items:center;gap:11px;min-width:236px;max-width:min(340px,calc(100vw - 36px));padding:12px 14px;border-radius:14px;border:1px solid rgba(255,169,96,.55);background:linear-gradient(135deg,#251c1a,#131820);color:#fff9f4;box-shadow:0 10px 35px rgba(0,0,0,.38);font:12px Arial,Helvetica,sans-serif;pointer-events:auto;transition:opacity .28s,transform .28s;';
+  const icon = document.createElement('span');
+  icon.textContent = ready ? '✓' : '!';
+  icon.style.cssText = 'width:33px;height:33px;border-radius:11px;flex-shrink:0;display:grid;place-items:center;font-weight:900;font-size:20px;color:#201008;background:linear-gradient(135deg,#ffcb8b,#fa7a24);';
+  const info = document.createElement('span');
+  info.style.cssText = 'flex:1;min-width:0;';
+  const title = document.createElement('b');
+  title.textContent = 'Auditoria ASN · v3.2.0';
+  title.style.cssText = 'display:block;font-size:12px;margin-bottom:3px;';
+  const subtitle = document.createElement('small');
+  subtitle.textContent = ready ? 'Painel carregado no WMS' : 'Motor não iniciou. Reinstale pelo site.';
+  subtitle.style.cssText = 'display:block;font-size:10px;color:#d1beba;';
+  const close = document.createElement('button');
+  close.textContent = '×';
+  close.type = 'button';
+  close.setAttribute('aria-label','Fechar aviso');
+  close.style.cssText = 'background:transparent;border:0;padding:0 3px;color:#dfc6b3;font-size:22px;cursor:pointer;align-self:flex-start;line-height:1;';
+  close.addEventListener('click',() => el.remove());
+  info.append(title,subtitle);
+  el.append(icon,info,close);
+  document.body.appendChild(el);
+  setTimeout(() => {
+    if (!el.isConnected) return;
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => el.remove(),300);
+  },ready ? 4000 : 12000);
+  console.info('[WMS Auditoria] Loader 3.2.0:',ready ? 'motor ativo':'motor indisponível');
+})();
