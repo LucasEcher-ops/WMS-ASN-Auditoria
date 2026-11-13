@@ -1,0 +1,11 @@
+{
+  "name": "WMS · Auditoria ASN / MI / MTB",
+  "version": "3.2.0",
+  "engine_version": "3.1.0",
+  "release_date": "2026-11-13",
+  "main": "app/main.js",
+  "sha256": "c164f1d7779c5f4ee7a03c88a89640360890ba0ae7ab265b9fc6906e1afd2543",
+  "install": "loader.user.js",
+  "update": "loader.meta.js",
+  "mode": "tampermonkey-require-sri"
+}
